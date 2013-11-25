@@ -307,6 +307,23 @@ class MatrizDispersa < Matriz
       return result
    end
  end
+ 
+  def *(m2)
+    result = MatrizDispersa.new(@arrayi, @arrayj, @valores)
+    #for i in (0...m2.arrayi.size-2)
+      #for j in (0...m2.arrayi.size)
+	#for k in (0...m2.arrayi.size)
+    (m2.arrayi.size-2).times do |i|
+      (m2.arrayi.size).times do |j|
+	(m2.arrayi.size).times do |k|
+	  if((m2.arrayi[j]) == result.arrayi[k] and m2.arrayj[j] == result.arrayj[k])
+	     result.valores[k] = result.valores[k] * m2.valores[j]
+	  end
+	end
+      end
+    end
+	    return result
+  end
    
    
 end
