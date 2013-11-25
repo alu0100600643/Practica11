@@ -146,8 +146,11 @@ class MatrizDensa < Matriz
    	 
    	 mat = Array.new(@t+1){Array.new(@t+1)}
    	 
-   	 for i in (0..@t)
-   		 for j in (0..@t)
+	
+	 (@t+1).times do |i|
+	   (@t+1).times do |j|
+   	 #for i in (0..@t)
+   	#	 for j in (0..@t)
    			 mat[i][j]=0;
    		 end
     	end
@@ -155,9 +158,12 @@ class MatrizDensa < Matriz
    	 
     	m_resultado = Matriz.new(mat)
    	 
-    	for i in 0..@t
-        	for j in 0..@t
-		  for k in 0..@t
+	(@t+1).times do |i|
+	  (@t+1).times do |j|
+	    (@t+1).times do |k|
+    	#for i in 0..@t
+	    #for j in 0..@t
+		#  for k in 0..@t
                 	m_resultado.m[i][j] += @m[i][k] * m2.m[k][j]
             	end
            	 
@@ -308,23 +314,22 @@ class MatrizDispersa < Matriz
    end
  end
  
-  def *(m2)
+ def *(m2)
     result = MatrizDispersa.new(@arrayi, @arrayj, @valores)
-    #for i in (0...m2.arrayi.size-2)
-      #for j in (0...m2.arrayi.size)
-	#for k in (0...m2.arrayi.size)
-    (m2.arrayi.size-2).times do |i|
+    
       (m2.arrayi.size).times do |j|
 	(m2.arrayi.size).times do |k|
+      #for j in (0...m2.arrayi.size)
+	
+	#for k in (0...m2.arrayi.size)
 	  if((m2.arrayi[j]) == result.arrayi[k] and m2.arrayj[j] == result.arrayj[k])
-	     result.valores[k] = result.valores[k] * m2.valores[j]
+	    result.valores[k] = result.valores[k] * m2.valores[j]
 	  end
+   
 	end
       end
-    end
-	    return result
+      return result
   end
-   
    
 end
 
