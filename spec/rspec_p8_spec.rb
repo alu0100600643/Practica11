@@ -1,7 +1,7 @@
 #Realizado por Daura Hernández Díaz y Miguel Aurelio García González
 
-require "../lib/matriz.rb"
-require "../lib/fraccion.rb"
+require "matriz.rb"
+require "fraccion.rb"
 
 
 describe MatrizDensa do
@@ -93,6 +93,10 @@ describe MatrizDispersa do
     
     it "Valor minimo" do
       @m3.min.should == 1
+    end
+
+    it "Multiplicacion" do
+      (@m3 * @m4).valores.should == [1, 4, 9]
     end
 
 end
