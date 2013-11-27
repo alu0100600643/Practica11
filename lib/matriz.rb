@@ -1,11 +1,13 @@
-#require "matriz/version"
+#Practica realizada por: Miguel Aurelio García González y Daura Hernández Díaz
+#En esta practica desarrollamos tres clases, la clase Matriz, MatrizDensa y MatrizDispersa.
+#La clase Matriz será la madre de las otras dos.
 
 
 class Matriz
 
 	attr_accessor :m, :t
 	
-
+#definición del método initialize, donde crearemos la matriz que usaremos posteriormente y obtendremos su tamaño
 	def initialize(matriz)
 	    if matriz != nil
       	
@@ -42,16 +44,17 @@ class Matriz
 end
 
 
-
+#Definición e implementación de la clas MatrizDensa, que como vemos hereda de la clase Matriz definida anteriormente.
 class MatrizDensa < Matriz
 
   private_class_method :new
-  
+#Hacemos el new privado, utilizandolo posteriormente en un método que hemos creado, dentro del cual llamamos al constructor de la clase Matriz  
   def Matriz.densa (matriz)
 	new(matriz)
     
   end
-  
+#Max es un método que nos devolverá el mayor elemento que contenga la matriz densa
+# El valor que tendremos como referencia es el que se encuentre en la posición (0,0) de la matriz, comparandolo luego con el resto de los valores
   def max
     elemenmax = @m[0][0]
     for i in 0..@t
@@ -64,6 +67,7 @@ class MatrizDensa < Matriz
     return elemenmax
   end
   
+# El método min devolverá el elemento mínimo de la matriz
   def min
     elemenmin = @m[0][0]
     for i in 0..@t
@@ -76,14 +80,11 @@ class MatrizDensa < Matriz
     return elemenmin
     
   end
-  
+#El siguiente método realiza la suma entre dos matrices, pueden ser densa-densa o densa-dispersa
   def +(m2)
  
     if m2.instance_of?MatrizDispersa
      result = MatrizDensa.densa(@m)
-      
-     # for i in (0..@t)
-	 #  for j in (0..@t)
      
 	 (@t+1).times do |i|
 	   (@t+1).times do |j|  
@@ -111,7 +112,7 @@ class MatrizDensa < Matriz
 		
 		
 		
-	
+# El siguiente método realiza la resta de dos matrices, como comentabamos anteriormente las matrices pueden ser densa-densa o densa-dispersa	
   def -(m2)
 
     if m2.instance_of?MatrizDispersa
@@ -142,6 +143,7 @@ class MatrizDensa < Matriz
       return result
  end
  
+# El método * realiza la multiplicación entre dos matrices densas
 	def *(m2)
    	 
    	 mat = Array.new(@t+1){Array.new(@t+1)}
@@ -149,8 +151,6 @@ class MatrizDensa < Matriz
 	
 	 (@t+1).times do |i|
 	   (@t+1).times do |j|
-   	 #for i in (0..@t)
-   	#	 for j in (0..@t)
    			 mat[i][j]=0;
    		 end
     	end
@@ -161,9 +161,6 @@ class MatrizDensa < Matriz
 	(@t+1).times do |i|
 	  (@t+1).times do |j|
 	    (@t+1).times do |k|
-    	#for i in 0..@t
-	    #for j in 0..@t
-		#  for k in 0..@t
                 	m_resultado.m[i][j] += @m[i][k] * m2.m[k][j]
             	end
            	 
@@ -172,13 +169,14 @@ class MatrizDensa < Matriz
 	  return m_resultado
 	end
 
-
+#Con este método podemos acceder al valor de una posición determinada de la matriz
 	def pos(a, b)
 	 
 	   @m[a][b]
 	   
 	end
 	
+#El método to_s devuelve la matriz en otro formato
 	def to_s
 	  "#{@mat}"
 	end
@@ -186,10 +184,13 @@ class MatrizDensa < Matriz
  
  end
 
-
+#Definición e implementación de la clase MatrizDispersa
+#MatrizDispersa hereda de Matriz
 class MatrizDispersa < Matriz
   attr_accessor :arrayi, :arrayj , :valores
   
+#Dentro del método initialize creamos tres vectores, el vector arrayi contendrá las posiciones de i, arrayj las posiciones de j y valores contendrá
+# los valores no nulos que contenga la matriz.
   def initialize(i, j, v)
     
     @arrayi = i
@@ -197,7 +198,7 @@ class MatrizDispersa < Matriz
     @valores = v
 
   end
-   
+# El método pos nos permite acceder al valor de una posición determinada   
   def pos(a,b)
     for i in 0...@arrayi.size
       if((@arrayi[i] == a) and (@arrayj[i] == b))
@@ -206,7 +207,7 @@ class MatrizDispersa < Matriz
     end
     return nil
   end
-  
+#Método max para devolver el mayor elemento de la matriz 
   def max
     elemenmax = @valores[0]
     for i in 0...@arrayi.size
@@ -217,7 +218,7 @@ class MatrizDispersa < Matriz
     return elemenmax
   end
   
-  
+#Método min que devuelve el menor elemento de la matriz 
   def min
      elemenmin = @valores[0]
     for i in 0...@arrayi.size
@@ -228,13 +229,11 @@ class MatrizDispersa < Matriz
     return elemenmin
   end
   
-  
+#Suma de matrices, bien pueden ser dispersa-dispersa o dispersa-densa  
  def +(m2)
    if m2.instance_of?MatrizDensa
      result = MatrizDensa.densa(m2.m)
      
-     #for i in (0..m2.t)
-	#for j in (0..m2.t)
 	 (m2.t+1).times do |i|
 	   (m2.t+1).times do |j| 
 	  encontrado = 0
@@ -252,10 +251,8 @@ class MatrizDispersa < Matriz
       result = MatrizDispersa.new(@arrayi, @arrayj, @valores)
     
       (m2.arrayi.size).times do |j|
-      #for j in (0...m2.arrayi.size)
 	encontrado = false
 	(m2.arrayi.size+1).times do |k|
-	#for k in (0...m2.arrayi.size)
 	  if((m2.arrayi[j]) == result.arrayi[k] and m2.arrayj[j] == result.arrayj[k])
 	    result.valores[k] = result.valores[k] + m2.valores[j]
 	    encontrado = true
@@ -274,6 +271,7 @@ class MatrizDispersa < Matriz
       
  end
 
+#Resta de dos matrices
     def -(m2)
    if m2.instance_of?MatrizDensa
      result = MatrizDensa.densa(m2.m)
@@ -314,6 +312,7 @@ class MatrizDispersa < Matriz
    end
  end
  
+#Multiplicacion de dos matrices dispersa*dispersa
  def *(m2)
     result = MatrizDispersa.new(@arrayi, @arrayj, @valores)
     
