@@ -180,8 +180,19 @@ class MatrizDensa < Matriz
 	def to_s
 	  "#{@mat}"
 	end
-
- 
+	
+	
+	
+	def encontrar
+	  (@t+2).times do |i|
+	   (@t+2).times do |j| 
+	    if yield(@m[i][j])
+	      return [i,j]
+	    end
+	   end
+	  end
+	end
+      
  end
 
 #Definición e implementación de la clase MatrizDispersa
